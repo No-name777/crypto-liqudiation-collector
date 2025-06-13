@@ -3,7 +3,7 @@ import websocket, json, threading, time
 def on_message(ws, message):
     try:
         data = json.loads(message)
-        print("📩 수신 데이터:", data)  # 이 줄 추가
+        print("📩 [binance] 수신 데이터:", data)  # 이 줄 추가
         liq = {
             "exchange": "Binance",
             "price": float(data["p"]),
