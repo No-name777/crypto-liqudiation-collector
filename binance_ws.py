@@ -1,4 +1,4 @@
-def listen_binance_liqudiations(db):
+def listen_binance_liquidations(db):
     def on_message(ws, message):
         try:
             print(f"📩 [binance] 수신 메시지:", message)
