@@ -1,7 +1,9 @@
+import websocket, json, threading, time
+
 def listen_binance_liquidations(db):
     def on_message(ws, message):
         try:
-            print(f"📩 [binance] 수신 메시지:", message)
+            print(f"📩 [binance] 수신 메시지: {message}")
             data = json.loads(message)
             liq = {
                 "exchange": "Binance",
