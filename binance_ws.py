@@ -1,19 +1,19 @@
 import websocket, json, threading, time
 
-def listen_binance_liquidations(db):
-    def on_message(ws, message):
-        try:
-            data = json.loads(message)
-            liq = {
-                "exchange": "Binance",
-                "price": float(data["p"]),
-                "quantity": float(data["q"]),
-                "timestamp": int(float(data["T"]))
-            }
-            db.binance.insert_one(liq)
-            print(f"💥 청산: {liq}")
-        except Exception as e:
-            print(f"❌ 파싱 실패: {e}")
+def on_message(ws, message):
+    try:
+        data = json.loads(message)
+        print("📩 수신 데이터:", data)  # 이 줄 추가
+        liq = {
+            "exchange": "Binance",
+            "price": float(data["p"]),
+            "quantity": float(data["q"]),
+            "timestamp": int(float(data["T"]))
+        }
+        db.binance.insert_one(liq)
+        print(f"💥 청산: {liq}")
+    except Exception as e:
+        print(f"❌ 파싱 실패: {e}")
 
     def run():
         ws = websocket.WebSocketApp(
