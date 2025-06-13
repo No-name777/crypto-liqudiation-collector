@@ -12,8 +12,8 @@ def on_message(ws, message):
         }
         db.binance.insert_one(liq)
         print(f"💥 청산: {liq}")
-except Exception as e:
-    print(f"❌ [binance] 파싱 실패: {e}")
+    except Exception as e:
+        print(f"❌ [binance] 파싱 실패: {e}")
 
 
     def run():
