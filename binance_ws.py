@@ -8,12 +8,16 @@ def listen_binance():
         try:
             print("📦 Binance 원시 메시지:", message)
             data = json.loads(message)[0]
+            price = float(data["o"]["p"])
+            quantity = float(data["o"]["q"])
             liq = {
                 "exchange": "Binance",
                 "symbol": data["o"]["s"],
                 "side": "LONG" if data["o"]["S"] == "BUY" else "SHORT",
-                "price": float(data["o"]["p"]),
-                "quantity": float(data["o"]["q"]),
+                "price": price,
+                "quantity": quantity,
+                "value": price * quantity,  # 💰 USD 청산 금액 추가
+                "timestamp": int(data["E"]),  # 이벤트 발생 시점 (ms 단위)
             }
             insert_liquidation(liq)
             print("💥 Binance 청산:", liq)
