@@ -24,7 +24,12 @@ def insert_liquidation(data):
         "created_at": datetime.utcnow().isoformat() + "Z"
     }
     response = requests.post(f"{SUPABASE_URL}/rest/v1/{SUPABASE_TABLE}", headers=SUPABASE_HEADERS, json=payload)
-    print("📤 Supabase 응답:", response.status_code, response.text)
+    
+    # 디버깅 로그 추가
+    print("📦 요청 페이로드:", payload)
+    print("📨 Supabase 응답 코드:", response.status_code)
+    print("📨 Supabase 응답 내용:", response.text)
+    
     if response.status_code != 201:
         print(f"❌ {data['exchange']} 저장 실패:", response.text)
 
