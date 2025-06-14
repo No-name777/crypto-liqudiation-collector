@@ -38,7 +38,11 @@ def listen_binance():
     def on_message(ws, message):
         try:
             data = json.loads(message)
+            if isinstance(data, list):
+                data = data[0]
+                
             print("🧾 Binance 전체 수신 데이터:", data)
+            
             liq = {
                 "exchange": "Binance",
                 "symbol": data["o"]["s"],
