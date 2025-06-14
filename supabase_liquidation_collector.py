@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 import gzip
 
 SUPABASE_URL = "https://dlunenowfovxasecdnes.supabase.co"
-SUPABASE_API_KEY = "..."
+SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRsdW5lbm93Zm92eGFzZWNkbmVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4Njc1OTMsImV4cCI6MjA2NTQ0MzU5M30.8uzPKPM4Kj13fJ2CaMi4-4ZTwhakWucsnqI0fXjbSLM"
 SUPABASE_TABLE = "liquidations"
 SUPABASE_HEADERS = {
     "apikey": SUPABASE_API_KEY,
