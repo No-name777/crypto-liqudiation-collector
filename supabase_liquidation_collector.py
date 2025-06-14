@@ -21,7 +21,7 @@ def insert_liquidation(data):
         "side": data["side"],
         "price": data["price"],
         "quantity": data["quantity"],
-        "created_at": datetime.utcnow().isoformat()
+        "created_at": datetime.utcnow().isoformat() + "Z"
     }
     response = requests.post(f"{SUPABASE_URL}/rest/v1/{SUPABASE_TABLE}", headers=SUPABASE_HEADERS, json=payload)
     print("📤 Supabase 응답:", response.status_code, response.text)
