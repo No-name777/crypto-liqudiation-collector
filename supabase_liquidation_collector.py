@@ -47,6 +47,8 @@ def listen_binance():
                     "side": "LONG" if data["o"]["S"] == "BUY" else "SHORT",
                     "price": float(data["o"]["p"]),
                     "quantity": float(data["o"]["q"]),
+                    "value": price * quantity,         # ✅ 추가
+                    "timestamp": int(data["E"])        # ✅ 추가
                 }
                 insert_liquidation(liq)
                 print("💥 Binance:", liq)
@@ -73,6 +75,8 @@ def listen_bybit():
                         "side": "LONG" if d["side"] == "Buy" else "SHORT",
                         "price": float(d["price"]),
                         "quantity": float(d["size"]),
+                        "value": price * quantity,         # ✅ 추가
+                        "timestamp": int(data["E"])        # ✅ 추가
                     }
                     insert_liquidation(liq)
                     print("💥 Bybit:", liq)
@@ -106,6 +110,8 @@ def listen_okx():
                         "side": "LONG" if d["side"] == "buy" else "SHORT",
                         "price": float(d["price"]),
                         "quantity": float(d["sz"]),
+                        "value": price * quantity,         # ✅ 추가
+                        "timestamp": int(data["E"])        # ✅ 추가
                     }
                     insert_liquidation(liq)
                     print("💥 OKX:", liq)
@@ -141,6 +147,8 @@ def listen_htx():
                         "side": "LONG" if d["direction"] == "buy" else "SHORT",
                         "price": float(d["price"]),
                         "quantity": float(d["amount"]),
+                        "value": price * quantity,         # ✅ 추가
+                        "timestamp": int(data["E"])        # ✅ 추가
                     }
                     insert_liquidation(liq)
                     print("💥 HTX:", liq)
@@ -174,6 +182,8 @@ def listen_deribit():
                     "side": "SHORT" if d.get("direction") == "sell" else "LONG",
                     "price": float(d["price"]),
                     "quantity": float(d["amount"]),
+                    "value": price * quantity,         # ✅ 추가
+                    "timestamp": int(data["E"])        # ✅ 추가
                 }
                 insert_liquidation(liq)
                 print("💥 Deribit:", liq)
