@@ -12,15 +12,21 @@ def listen_htx():
             data = json.loads(decompressed_data)
             if "data" in data:
                 for d in data["data"]:
+                    price = float(d["price"])
+                    quantity = float(d["amount"])
                     liq = {
                         "exchange": "HTX",
                         "symbol": d["symbol"].upper(),
                         "side": "LONG" if d["direction"] == "buy" else "SHORT",
-                        "price": float(d["price"]),
-                        "quantity": float(d["amount"])
+                        "price": price,
+                        "quantity": quantity,
+                        "value": price * quantity,  # 💰 USD 청산 금액
+                        "timestamp": int(d["created_at"])  # Unix ms
                     }
                     insert_liquidation(liq)
                     print("💥 HTX 청산:", liq)
+            elif "ping" in data:
+                ws.send(json.dumps({"pong": data["ping"]}))
         except Exception as e:
             print("❌ HTX 파싱 실패:", e)
 
