@@ -15,6 +15,7 @@ SUPABASE_HEADERS = {
 }
 
 def insert_liquidation(data):
+    print("📥 insert_liquidation 진입:", data)
     payload = {
         "exchange": data["exchange"],
         "symbol": data["symbol"],
@@ -24,12 +25,9 @@ def insert_liquidation(data):
         "created_at": datetime.utcnow().isoformat() + "Z"
     }
     response = requests.post(f"{SUPABASE_URL}/rest/v1/{SUPABASE_TABLE}", headers=SUPABASE_HEADERS, json=payload)
-    
-    # 디버깅 로그 추가
     print("📦 요청 페이로드:", payload)
     print("📨 Supabase 응답 코드:", response.status_code)
     print("📨 Supabase 응답 내용:", response.text)
-    
     if response.status_code != 201:
         print(f"❌ {data['exchange']} 저장 실패:", response.text)
 
@@ -37,21 +35,19 @@ def insert_liquidation(data):
 def listen_binance():
     def on_message(ws, message):
         try:
-            data = json.loads(message)
-            if isinstance(data, list):
-                data = data[0]
-                
-            print("🧾 Binance 전체 수신 데이터:", data)
-            
-            liq = {
-                "exchange": "Binance",
-                "symbol": data["o"]["s"],
-                "side": "LONG" if data["o"]["S"] == "BUY" else "SHORT",
-                "price": float(data["o"]["p"]),
-                "quantity": float(data["o"]["q"]),
-            }
-            insert_liquidation(liq)
-            print("💥 Binance:", liq)
+            raw = json.loads(message)
+            data_list = raw if isinstance(raw, list) else [raw]
+            for data in data_list:
+                print("🧾 Binance 수신:", data)
+                liq = {
+                    "exchange": "Binance",
+                    "symbol": data["o"]["s"],
+                    "side": "LONG" if data["o"]["S"] == "BUY" else "SHORT",
+                    "price": float(data["o"]["p"]),
+                    "quantity": float(data["o"]["q"]),
+                }
+                insert_liquidation(liq)
+                print("💥 Binance:", liq)
         except Exception as e:
             print("❌ Binance 파싱 실패:", e)
 
