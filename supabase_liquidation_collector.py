@@ -3,7 +3,7 @@ import json
 import threading
 import time
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 
 SUPABASE_URL = "https://dlunenowfovxasecdnes.supabase.co"
 SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRsdW5lbm93Zm92eGFzZWNkbmVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4Njc1OTMsImV4cCI6MjA2NTQ0MzU5M30.8uzPKPM4Kj13fJ2CaMi4-4ZTwhakWucsnqI0fXjbSLM"
@@ -22,7 +22,7 @@ def insert_liquidation(data):
         "side": data["side"],
         "price": data["price"],
         "quantity": data["quantity"],
-        "created_at": datetime.utcnow().isoformat() + "Z"
+        "created_at": datetime.utcnow().isoformat()
     }
     response = requests.post(f"{SUPABASE_URL}/rest/v1/{SUPABASE_TABLE}", headers=SUPABASE_HEADERS, json=payload)
     print("📦 요청 페이로드:", payload)
