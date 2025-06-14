@@ -6,6 +6,7 @@ from supabase_liquidation_collector import insert_liquidation
 def listen_binance():
     def on_message(ws, message):
         try:
+            print("📦 Binance 원시 메시지:", message)
             data = json.loads(message)[0]
             liq = {
                 "exchange": "Binance",
