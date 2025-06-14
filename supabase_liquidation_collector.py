@@ -22,7 +22,9 @@ def insert_liquidation(data):
         "side": data["side"],
         "price": data["price"],
         "quantity": data["quantity"],
-        "created_at": datetime.utcnow().isoformat()
+        "value": data.get("value"),  # 💰 추가된 달러 금액 필드
+        "timestamp": data.get("timestamp"),  # 🕒 밀리초 단위 원시 타임스탬프
+        "created_at": datetime.utcnow().isoformat()  # Supabase 기준용 UTC 타임스탬프
     }
     response = requests.post(f"{SUPABASE_URL}/rest/v1/{SUPABASE_TABLE}", headers=SUPABASE_HEADERS, json=payload)
     print("📦 요청 페이로드:", payload)
